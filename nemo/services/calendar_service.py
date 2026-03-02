@@ -32,6 +32,11 @@ class CalendarService:
             if creds and creds.expired and creds.refresh_token:
                 creds.refresh(Request())
             else:
+                if not os.path.exists(creds_path):
+                    raise FileNotFoundError(
+                        f"Google credentials file not found at {creds_path}. "
+                        "Download OAuth credentials from Google Cloud Console."
+                    )
                 flow = InstalledAppFlow.from_client_secrets_file(creds_path, SCOPES)
                 creds = flow.run_local_server(port=0)
             os.makedirs(os.path.dirname(token_path), exist_ok=True)

@@ -93,7 +93,10 @@ CALENDAR_TOOLS = [
 
 
 def handle_get_events(input_data: dict) -> str:
-    service = _get_service()
+    try:
+        service = _get_service()
+    except Exception as e:
+        return f"Calendar unavailable: {e}"
     events = service.get_events(
         time_min=input_data.get("time_min"),
         time_max=input_data.get("time_max"),
@@ -105,7 +108,10 @@ def handle_get_events(input_data: dict) -> str:
 
 
 def handle_create_event(input_data: dict) -> str:
-    service = _get_service()
+    try:
+        service = _get_service()
+    except Exception as e:
+        return f"Calendar unavailable: {e}"
     event = service.create_event(
         summary=input_data["summary"],
         start_time=input_data["start_time"],
@@ -117,7 +123,10 @@ def handle_create_event(input_data: dict) -> str:
 
 
 def handle_find_free_time(input_data: dict) -> str:
-    service = _get_service()
+    try:
+        service = _get_service()
+    except Exception as e:
+        return f"Calendar unavailable: {e}"
     slots = service.find_free_time(
         date=input_data["date"],
         duration_minutes=input_data.get("duration_minutes", 30),
